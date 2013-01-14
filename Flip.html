@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        #back,
+        #front {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          -webkit-backface-visibility: hidden;
+          -webkit-transition-duration: .5s;
+          -webkit-transform-style: preserve-3d;
+        }
+        #front {
+            background-color:red;
+        }
+        #back {
+            background-color:green;
+        }
+        .normal {
+          -webkit-transform: rotateY(0deg);
+        }
+
+        .flipped {
+          -webkit-user-select: element;
+          -webkit-transform: rotateY(180deg);
+        }
+    </style>
+    <script>
+        function flip() {
+            // get a handle on the flippable region
+            var front = document.getElementById('front');
+            var back = document.getElementById('back');
+
+            // again, just a simple way to see what the state is
+            var classes = front.className.split(' ');
+            var flipped = classes.indexOf('flipped');
+
+            if (flipped >= 0) {
+                // already flipped, so return to original
+                front.className = 'normal';
+                back.className = 'flipped';
+                FLIPPED = false;
+            } else {
+                // do the flip
+                front.className = 'flipped';
+                back.className = 'normal';
+                FLIPPED = true;
+            }
+        }
+
+        window.addEventListener('load', function (e) {
+            
+        }, false);
+
+        function flipMe() {
+            flip();
+        }
+    </script>
+</head>
+<body>
+    <div id="container" class="container" onclick="flipMe();">
+        <div id="front" class="normal">
+            <div id="home-page" class="page">
+                <h1>Home Page</h1>
+            </div>
+
+            <div id="products-page" class="page stage-right">
+                <h1>Products Page</h1>
+            </div>
+
+            <div id="about-page" class="page stage-left">
+                <h1>About Page</h1>
+            </div>
+        </div>
+        <div id="back" class="flipped">
+
+            <div id="contact-page" class="page">
+                <h1>Contact Page</h1>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

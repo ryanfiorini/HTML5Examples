@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <style type="text/css">
+        body { margin: 0px; overflow: hidden; }
+        canvas { border: 1px solid black; }
+    </style>
+<script type="text/javascript">
+
+    var canvas;
+    var ctx;
+    var w = 0;
+    var h = 0;
+
+    var touches = [];
+
+    function ol() {
+        debugger;
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+
+        canvas.addEventListener('touchend', function () {
+            ctx.clearRect(0, 0, w, h);
+        }, false);
+
+        canvas.addEventListener('touchmove', function (event) {
+            event.preventDefault();
+
+            for (var i = 0; i < event.touches.length; i++) {
+                var touch = event.touches[i];
+                ctx.beginPath();
+                ctx.arc(touch.pageX, touch.pageY, 20, 0, 2 * Math.PI, true);
+                ctx.fill();
+                ctx.stroke();
+            }
+        }, false);
+
+        canvas.addEventListener('touchstart', function (event) {
+            console.log('start');
+        }, false);
+    };
+
+</script>
+</head>
+<body onload="ol()">
+
+    <canvas id="canvas" width="778" height="400"></canvas>
+
+</body>
+</html>
