@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <style>
+ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input{margin:0; padding:0;}
+
+#helixContainer { list-style:none; width:200px; height:50px; margin:0px auto;
+	-webkit-perspective: 1000; /* Add depth to the rotation */
+}
+
+#helixContainer li { height:5px; width:200px; }
+#helixContainer li div { position:absolute; height:5px; width:200px;
+	-webkit-animation-duration: 4s; /* Duration of the animations */
+	-webkit-transform-style: preserve-3d; /* Ensure 3d animation */
+	-webkit-animation-fill-mode: forwards; /* Stop the animation at the last keyframe */
+}
+
+#helixContainer li div:nth-child(1) { background-image:url("/images/weemee.png"); } /* Horizontal flipped iPad image is used */
+#helixContainer li div:nth-child(2) { background-image:url("/images/weemee.png");
+	-webkit-backface-visibility: hidden; /* Hide the iPhone when facing the other side */
+}
+    </style>
+    <script>
+        window.onload = function () {
+            //var head = document.getElementsByTagName('head')[0];
+            var style = document.createElement('style');
+            var animationName = "flip";
+            var backAnimationName = "backflip";
+
+            for (var i = 1; i < 21; i++) {
+                var styleText = document.createTextNode('#helixContainer > li:nth-child(' + i + ') div { background-position:0 -'+ (i-1) * 10 +'px;} ');
+                style.appendChild(styleText);
+
+                styleText = document.createTextNode("#helixContainer:hover li:nth-child(" + i + ") div { -webkit-animation-name: " + animationName + i + "; }");
+                style.appendChild(styleText);
+
+                var tmpstring = "@-webkit-keyframes "+ animationName + i + " {";
+                for (var j = 0; j < 100; j++) {
+                    if(j < i) {
+                        tmpstring += " " + j + "% { }";
+                    }
+                }
+
+                tmpstring += " 100% { -webkit-transform: rotateY(180deg); }";
+                tmpstring += "}";
+                styleText = document.createTextNode(tmpstring);
+                style.appendChild(styleText);
+
+                // "Backflip"
+                tmpstring = "#helixContainer li:nth-child(" + i + ") div { -webkit-animation-name: " + backAnimationName + i + "; }";
+      
+                tmpstring += "@-webkit-keyframes "+ backAnimationName + i + " {";
+                for(var k = 0; k < 100; k++) {
+                    if(k < i) {
+                        tmpstring += " " + k + "% { -webkit-transform: rotateY(180deg); }";
+                    }
+                }
+                tmpstring += " 100% { -webkit-transform: rotateY(0deg); }";
+                tmpstring += "}";
+
+                styleText = document.createTextNode(tmpstring);
+                style.appendChild(styleText);
+
+            }
+            document.getElementsByTagName('head')[0].appendChild(style);
+
+            var helix = document.getElementById("helixContainer");
+            for (var i = 0; i < 20; i++) {
+                var li = document.createElement("li");
+                var div1 = document.createElement("div");
+                var div2 = document.createElement("div");
+                li.appendChild(div1);
+                li.appendChild(div2);
+                helix.appendChild(li);
+            }
+
+        };
+
+    </script>
+</head>
+<body>
+    <ol id="helixContainer"></ol>
+</body>
+</html>
